@@ -1,15 +1,14 @@
 /*
-UC3 - Added the Hint Message service.
+UC4 - Handles the Invalid Input through Exception Handling.
 
-This is responsible for providing hint to User's guess with the target number.
+This is responsible for managing Invalid Input.
  */
 
 
 
 import java.util.*;
-
 public class GuessingApp{
-    public static void main(String[] args) {
+    public static void main(String[] args){
         System.out.println("Welcome to the Guessing App!");
         GameConfig gameConfig = new GameConfig();
         gameConfig.showRules();
@@ -18,22 +17,28 @@ public class GuessingApp{
         int attempts = 0;
         int hintCount = 0;
 
-        while (attempts < gameConfig.getMaxAttempts()) {
-            System.out.print("Enter your guess: ");
-            int guess = sc.nextInt();
-            attempts++;
+        try {
 
-            int targetNumber = gameConfig.getTargetNumber();
+            while (attempts < gameConfig.getMaxAttempts()) {
+                System.out.print("Enter your guess: ");
+                int guess = ValidationService.validateInput(sc.nextLine());
+                attempts++;
 
-            String result = GuessValidator.validateGuess(guess, targetNumber);
-            String hint = HintService.generateHint(targetNumber, ++hintCount);
+                int targetNumber = gameConfig.getTargetNumber();
 
-            System.out.println(result);
-            if (hintCount<4) System.out.println(hint);
+                String result = GuessValidator.validateGuess(guess, targetNumber);
+                String hint = HintService.generateHint(targetNumber, ++hintCount);
 
-            if ("CORRECT".equals(result)) {
+                System.out.println(result);
+                if (hintCount<4) System.out.println(hint);
+
+                if ("CORRECT".equals(result)) {
                 break;
+                }
             }
+        }
+        catch (InvalidInputException e) {
+            System.out.println(e.getMessage());
         }
 
     }
