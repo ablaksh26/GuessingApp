@@ -12,8 +12,10 @@ This is responsible for managing Invalid Input.
 import java.util.*;
 public class GuessingApp{
     public static void main(String[] args){
+        boolean restart;
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to the Guessing App!");
+
 
         System.out.println("Enter the name of the player: ");
         String player = sc.nextLine();
@@ -25,7 +27,7 @@ public class GuessingApp{
         boolean win = false;
         try {
 
-
+            do {
             while (attempts < gameConfig.getMaxAttempts()) {
                 System.out.print("Enter your guess: ");
                 int guess = ValidationService.validateInput(sc.nextLine());
@@ -47,10 +49,13 @@ public class GuessingApp{
                 }
             }
             StorageService.saveResult(player,attempts,win);
+            restart = GameController.restartGame(sc);
+            } while(restart);
         }
         catch (InvalidInputException e) {
             System.out.println(e.getMessage());
         }
+
 
     }
 }
