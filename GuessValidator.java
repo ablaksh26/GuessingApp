@@ -1,5 +1,3 @@
-import java.util.*;
-
 class GuessValidator {
 
     public static String validateGuess(int guess, int target) {

@@ -1,5 +1,3 @@
-import java.util.*;
-
 class GameConfig {
     // Setting the final variables that are going to be used.
     private final int MIN = 1;
