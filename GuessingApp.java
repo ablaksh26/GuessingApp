@@ -2,6 +2,9 @@
 UC4 - Handles the Invalid Input through Exception Handling.
 
 This is responsible for managing Invalid Input.
+
+@author - Abhilaksh
+@version - 5.0
  */
 
 
@@ -9,20 +12,26 @@ This is responsible for managing Invalid Input.
 import java.util.*;
 public class GuessingApp{
     public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to the Guessing App!");
+
+        System.out.println("Enter the name of the player: ");
+        String player = sc.nextLine();
+
         GameConfig gameConfig = new GameConfig();
         gameConfig.showRules();
-
-        Scanner sc = new Scanner(System.in);
         int attempts = 0;
         int hintCount = 0;
-
+        boolean win = false;
         try {
+
 
             while (attempts < gameConfig.getMaxAttempts()) {
                 System.out.print("Enter your guess: ");
                 int guess = ValidationService.validateInput(sc.nextLine());
                 attempts++;
+
+            
 
                 int targetNumber = gameConfig.getTargetNumber();
 
@@ -33,9 +42,11 @@ public class GuessingApp{
                 if (hintCount<4) System.out.println(hint);
 
                 if ("CORRECT".equals(result)) {
+                win = true;
                 break;
                 }
             }
+            StorageService.saveResult(player,attempts,win);
         }
         catch (InvalidInputException e) {
             System.out.println(e.getMessage());
